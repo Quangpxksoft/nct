@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Trang chủ - Hội Người cao tuổi Phường{% endblock %}
+{% block content %}
+
+{% if anh_banner %}
+<div class="banner-carousel" id="banner-carousel">
+  {% for item in anh_banner %}
+  <div class="banner-slide {% if loop.first %}active{% endif %}">
+    <img src="{{ item.hinh_anh }}" alt="{{ item.tieu_de }}">
+    <div class="noi-dung">
+      <span class="tag noibat">{{ 'Tin tức' if item.__class__.__name__=='TinTuc' else (item.loai_hoat_dong or 'Hoạt động') }}</span>
+      <h2>{{ item.tieu_de }}</h2>
+      <p>{{ item.tom_tat if item.__class__.__name__=='TinTuc' else item.dia_diem }}</p>
+    </div>
+  </div>
+  {% endfor %}
+  {% if anh_banner|length > 1 %}
+  <div class="banner-dots">
+    {% for item in anh_banner %}<span class="{% if loop.first %}active{% endif %}"></span>{% endfor %}
+  </div>
+  {% endif %}
+</div>
+<script>
+(function(){
+  const slides = document.querySelectorAll('#banner-carousel .banner-slide');
+  const dots = document.querySelectorAll('#banner-carousel .banner-dots span');
+  if (slides.length <= 1) return;
+  let i = 0;
+  setInterval(() => {
+    slides[i].classList.remove('active');
+    if (dots[i]) dots[i].classList.remove('active');
+    i = (i + 1) % slides.length;
+    slides[i].classList.add('active');
+    if (dots[i]) dots[i].classList.add('active');
+  }, 4500);
+})();
+</script>
+{% else %}
+<section class="hero">
+  <div class="wrap">
+    <h1>Sống vui – Sống khỏe – Sống có ích</h1>
+    <p>Cập nhật hoạt động hàng ngày của Hội Người cao tuổi phường và các tổ dân phố.</p>
+  </div>
+</section>
+{% endif %}
+
+<div class="container-page wrap">
+  <div class="stat-mini-grid" style="margin-bottom:28px;">
+    <div class="stat-mini"><div class="so">{{ tong_hoi_vien }}</div><div class="nhan">Hội viên sinh hoạt</div></div>
+    <div class="stat-mini"><div class="so">{{ tong_to }}</div><div class="nhan">Tổ dân phố</div></div>
+    <div class="stat-mini"><div class="so">{{ tong_neo_don }}</div><div class="nhan">Hội viên neo đơn</div></div>
+  </div>
+
+  <div class="bao-layout">
+    <!-- CỘT CHÍNH: Tin tức + Hoạt động -->
+    <div class="bao-cot-chinh">
+
+      <div class="section-title"><h2>Tin tức & Thông báo</h2><a href="{{ url_for('danh_sach_tin_tuc') }}">Xem tất cả →</a></div>
+
+      {% set bai_dau = (tin_tuc_noi_bat[0] if tin_tuc_noi_bat else (tin_tuc_gan_day[0] if tin_tuc_gan_day else None)) %}
+      {% if bai_dau %}
+      <a href="{{ url_for('chi_tiet_tin_tuc', id=bai_dau.id) }}" class="bai-noi-bat-lon">
+        {% if bai_dau.hinh_anh %}<img src="{{ bai_dau.hinh_anh }}" alt="{{ bai_dau.tieu_de }}">{% endif %}
+        <div class="noi-dung">
+          <span class="tag noibat">Thông báo nổi bật</span>
+          <h3>{{ bai_dau.tieu_de }}</h3>
+          <p class="muted">{{ bai_dau.tom_tat or '' }} — 📅 {{ bai_dau.ngay_dang.strftime('%d/%m/%Y') }}</p>
+        </div>
+      </a>
+      {% endif %}
+
+      <div class="danh-sach-tin">
+        {% for tt in tin_tuc_gan_day %}
+        {% if tt.id != (bai_dau.id if bai_dau else 0) %}
+        <div class="dong-tin">
+          {% if tt.hinh_anh %}<img src="{{ tt.hinh_anh }}" alt="{{ tt.tieu_de }}">{% else %}<div style="width:110px;height:78px;border-radius:8px;background:#eef5ee;flex-shrink:0;"></div>{% endif %}
+          <div class="noi-dung">
+            <h4><a href="{{ url_for('chi_tiet_tin_tuc', id=tt.id) }}">{{ tt.tieu_de }}</a></h4>
+            <p class="muted">{{ tt.tom_tat or '' }}</p>
+            <p class="muted">📅 {{ tt.ngay_dang.strftime('%d/%m/%Y') }}</p>
+          </div>
+        </div>
+        {% endif %}
+        {% else %}
+        <p class="muted">Chưa có tin tức nào.</p>
+        {% endfor %}
+      </div>
+
+      <div class="section-title" style="margin-top:36px;"><h2>Hoạt động gần đây</h2><a href="{{ url_for('danh_sach_hoat_dong') }}">Xem tất cả →</a></div>
+      <div class="card-grid">
+        {% for hd in hoat_dong_gan_day %}
+        <div class="card">
+          {% if hd.hinh_anh %}<img src="{{ hd.hinh_anh }}" style="width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:10px;" alt="">{% endif %}
+          <span class="tag {% if hd.noi_bat %}noibat{% endif %}">{{ hd.loai_hoat_dong or 'Hoạt động' }}</span>
+          <h3>{{ hd.tieu_de }}</h3>
+          <p class="muted">📅 {{ hd.ngay_to_chuc.strftime('%d/%m/%Y') }} — 📍 {{ hd.dia_diem or 'Đang cập nhật' }}</p>
+          <a href="{{ url_for('chi_tiet_hoat_dong', id=hd.id) }}" class="btn btn-outline btn-sm">Xem chi tiết</a>
+        </div>
+        {% else %}
+        <p class="muted">Chưa có hoạt động nào được đăng.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="bao-sidebar">
+      <div class="sidebar-box">
+        <h3>💬 Diễn đàn mới</h3>
+        {% for bv in bai_viet_dien_dan %}
+        <div class="sidebar-item">
+          <a href="{{ url_for('dien_dan_chi_tiet', id=bv.id) }}">{{ bv.tieu_de }}</a>
+          <div class="muted">✍️ {{ bv.ten_nguoi_dang }}{% if bv.to_dan_pho %} — {{ bv.to_dan_pho.ten_to }}{% endif %}</div>
+        </div>
+        {% else %}
+        <p class="muted">Chưa có bài viết nào.</p>
+        {% endfor %}
+        <a href="{{ url_for('dien_dan_dang_bai') }}" class="btn btn-secondary btn-sm" style="margin-top:10px;width:100%;text-align:center;">+ Đăng bài chia sẻ</a>
+        <a href="{{ url_for('dien_dan_danh_sach') }}" style="display:block;text-align:center;margin-top:8px;font-size:13px;">Xem tất cả bài viết →</a>
+      </div>
+
+      <div class="sidebar-box">
+        <h3>📅 Hoạt động nổi bật</h3>
+        {% for hd in hoat_dong_noi_bat %}
+        <div class="sidebar-item">
+          <a href="{{ url_for('chi_tiet_hoat_dong', id=hd.id) }}">{{ hd.tieu_de }}</a>
+          <div class="muted">📅 {{ hd.ngay_to_chuc.strftime('%d/%m/%Y') }}{% if hd.gio_to_chuc %} — {{ hd.gio_to_chuc }}{% endif %}</div>
+        </div>
+        {% else %}
+        <p class="muted">Chưa có hoạt động nổi bật.</p>
+        {% endfor %}
+      </div>
+
+      <div class="sidebar-box">
+        <h3>ℹ️ Về Hội</h3>
+        <p class="muted" style="margin:0 0 10px;">"Tuổi cao gương sáng, sống vui, sống khỏe, sống có ích."</p>
+        <a href="{{ url_for('gioi_thieu') }}" class="btn btn-outline btn-sm" style="width:100%;text-align:center;">Xem giới thiệu</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

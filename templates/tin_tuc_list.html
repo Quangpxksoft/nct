@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Tin tức - Hội Người cao tuổi Phường{% endblock %}
+{% block content %}
+<div class="container-page wrap">
+  <div class="section-title"><h2>Tin tức & Thông báo</h2></div>
+  <div class="card-grid">
+    {% for tt in phan_trang.items %}
+    <div class="card">
+      {% if tt.noi_bat %}<span class="tag noibat">Thông báo nổi bật</span>{% else %}<span class="tag">Tin tức</span>{% endif %}
+      <h3>{{ tt.tieu_de }}</h3>
+      <p class="muted">📅 {{ tt.ngay_dang.strftime('%d/%m/%Y') }}</p>
+      {% if tt.tom_tat %}<p>{{ tt.tom_tat }}</p>{% endif %}
+      <a href="{{ url_for('chi_tiet_tin_tuc', id=tt.id) }}" class="btn btn-outline btn-sm">Đọc tiếp</a>
+    </div>
+    {% else %}
+    <p class="muted">Chưa có tin tức nào.</p>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    {% if phan_trang.has_prev %}<a href="?trang={{ phan_trang.prev_num }}">« Trước</a>{% endif %}
+    <span class="active">{{ phan_trang.page }} / {{ phan_trang.pages or 1 }}</span>
+    {% if phan_trang.has_next %}<a href="?trang={{ phan_trang.next_num }}">Sau »</a>{% endif %}
+  </div>
+</div>
+{% endblock %}

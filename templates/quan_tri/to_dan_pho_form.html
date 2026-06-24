@@ -1,0 +1,16 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}{{ tieu_de }}{% endblock %}
+{% block admin_content %}
+<h2 style="color:var(--xanh-la-dam);">{{ tieu_de }}</h2>
+<div class="form-box">
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="field" style="margin-bottom:14px;"><label>Tên tổ dân phố *</label>{{ form.ten_to() }}</div>
+  <div class="field" style="margin-bottom:14px;"><label>Tổ trưởng (Hội NCT)</label>{{ form.to_truong() }}</div>
+  <div class="field" style="margin-bottom:14px;"><label>SĐT tổ trưởng</label>{{ form.sdt_to_truong() }}</div>
+  <div class="field" style="margin-bottom:14px;"><label>Ghi chú</label>{{ form.ghi_chu() }}</div>
+  {{ form.submit(class="btn btn-primary") }}
+  <a href="{{ url_for('qt_danh_sach_to') }}" class="btn btn-secondary">Hủy</a>
+</form>
+</div>
+{% endblock %}

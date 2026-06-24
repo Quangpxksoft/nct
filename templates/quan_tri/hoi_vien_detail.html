@@ -1,0 +1,41 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}{{ hv.ho_ten }}{% endblock %}
+{% block admin_content %}
+<a href="{{ url_for('qt_danh_sach_hoi_vien') }}">← Quay lại danh sách hội viên</a>
+<div class="form-box" style="margin-top:14px;">
+  <div class="toolbar">
+    <h2 style="margin:0;color:var(--xanh-la-dam);">{{ hv.ho_ten }} {% if hv.neo_don %}<span class="badge badge-do">Neo đơn</span>{% endif %}</h2>
+    <a href="{{ url_for('qt_sua_hoi_vien', id=hv.id) }}" class="btn btn-secondary btn-sm">Sửa thông tin</a>
+  </div>
+  <div class="form-grid" style="margin-top:10px;">
+    <p><b>Mã hội viên:</b> {{ hv.ma_hoi_vien or '-' }}</p>
+    <p><b>Giới tính:</b> {{ hv.gioi_tinh or '-' }}</p>
+    <p><b>Ngày sinh:</b> {{ hv.ngay_sinh.strftime('%d/%m/%Y') }} ({{ hv.tuoi }} tuổi)</p>
+    <p><b>Số CCCD:</b> {{ hv.so_cccd or '-' }}</p>
+    <p><b>Điện thoại:</b> {{ hv.so_dien_thoai or '-' }}</p>
+    <p><b>Tổ dân phố:</b> {{ hv.to_dan_pho.ten_to if hv.to_dan_pho else '-' }}</p>
+    <p style="grid-column:1/-1;"><b>Địa chỉ:</b> {{ hv.dia_chi or '-' }}</p>
+    <p><b>Ngày vào hội:</b> {{ hv.ngay_vao_hoi.strftime('%d/%m/%Y') if hv.ngay_vao_hoi else '-' }}</p>
+    <p><b>Tình trạng sức khỏe:</b> {{ hv.tinh_trang_suc_khoe or '-' }}</p>
+  </div>
+  <hr style="border-color:var(--vien);margin:18px 0;">
+  <h3 style="color:var(--xanh-la-dam);">Lương hưu & chính sách</h3>
+  <div class="form-grid">
+    <p><b>Hưởng lương hưu:</b>
+      {% if hv.huong_luong_huu and hv.muc_luong_huu %}Có — {{ '{:,.0f}'.format(hv.muc_luong_huu) }} đ/tháng
+      {% elif hv.huong_luong_huu %}Có{% else %}Không{% endif %}
+    </p>
+    <p><b>Chế độ chính sách:</b>
+      {% if hv.co_che_do_chinh_sach and hv.loai_chinh_sach %}{{ hv.loai_chinh_sach }}
+      {% elif hv.co_che_do_chinh_sach %}Có{% else %}Không{% endif %}
+    </p>
+    <p><b>Trợ cấp xã hội:</b>
+      {% if hv.huong_tro_cap_xa_hoi and hv.muc_tro_cap %}{{ hv.loai_tro_cap or '' }} — {{ '{:,.0f}'.format(hv.muc_tro_cap) }} đ/tháng
+      {% elif hv.huong_tro_cap_xa_hoi %}Có{% else %}Không{% endif %}
+    </p>
+    <p><b>BHYT:</b> {{ 'Có' if hv.co_bhyt else 'Không' }}</p>
+  </div>
+  {% if hv.benh_man_tinh %}<p><b>Bệnh mãn tính:</b> {{ hv.benh_man_tinh }}</p>{% endif %}
+  {% if hv.ghi_chu %}<p><b>Ghi chú:</b> {{ hv.ghi_chu }}</p>{% endif %}
+</div>
+{% endblock %}

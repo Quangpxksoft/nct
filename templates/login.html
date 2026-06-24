@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Đăng nhập{% endblock %}
+{% block content %}
+<div class="container-page wrap">
+  <div class="form-box" style="max-width:420px;margin:0 auto;">
+    <h2 style="text-align:center;color:var(--xanh-la-dam);">Đăng nhập Ban quản trị</h2>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="field" style="margin-bottom:14px;">
+        {{ form.ten_dang_nhap.label }}
+        {{ form.ten_dang_nhap(placeholder="VD: admin") }}
+      </div>
+      <div class="field" style="margin-bottom:18px;">
+        {{ form.mat_khau.label }}
+        {{ form.mat_khau(placeholder="••••••••") }}
+      </div>
+      {{ form.submit(class="btn btn-primary", style="width:100%;") }}
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Hội Người cao tuổi Phường{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a href="{{ url_for('trang_chu') }}" class="logo" style="color:#fff;">
+      {% if cau_hinh and cau_hinh.logo_url %}
+      <img src="{{ cau_hinh.logo_url }}" alt="Logo Hội" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      {% else %}
+      <span class="icon">👴</span>
+      {% endif %}
+      <span>Hội Người cao tuổi
+        <small>{{ ten_phuong }} — {{ ten_thanh_pho }}</small>
+      </span>
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="{{ url_for('trang_chu') }}">Trang chủ</a></li>
+        <li><a href="{{ url_for('danh_sach_tin_tuc') }}">Tin tức</a></li>
+        <li><a href="{{ url_for('danh_sach_hoat_dong') }}">Hoạt động</a></li>
+        <li><a href="{{ url_for('dien_dan_danh_sach') }}">Diễn đàn</a></li>
+        <li><a href="{{ url_for('gioi_thieu') }}">Giới thiệu</a></li>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('bang_dieu_khien') }}">Khu quản trị</a></li>
+        <li><a href="{{ url_for('logout') }}">Đăng xuất ({{ current_user.ho_ten }})</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">Đăng nhập</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap" style="padding-top:18px;">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    © {{ 2026 }} Hội Người cao tuổi Phường — "Tuổi cao gương sáng, sống vui, sống khỏe, sống có ích"
+  </div>
+</footer>
+</body>
+</html>

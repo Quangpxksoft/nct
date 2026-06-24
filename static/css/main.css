@@ -1,0 +1,226 @@
+:root{
+  --xanh-la: #2f6e4f;
+  --xanh-la-dam: #1f4d38;
+  --vang-dat: #d9a44a;
+  --kem: #faf6ee;
+  --chu-chinh: #2b2b28;
+  --vien: #e2dac9;
+  --do-nhe: #b5482f;
+}
+
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family: "Be Vietnam Pro", "Segoe UI", Arial, sans-serif;
+  background: var(--kem);
+  color: var(--chu-chinh);
+  font-size:17px;
+  line-height:1.6;
+}
+a{color: var(--xanh-la-dam); text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.site-header{
+  background: linear-gradient(135deg, var(--xanh-la-dam), var(--xanh-la));
+  color:#fff;
+  padding: 18px 0;
+}
+.site-header .wrap{
+  max-width:1100px; margin:0 auto; padding:0 20px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+.logo{display:flex; align-items:center; gap:12px; font-size:22px; font-weight:700;}
+.logo .icon{
+  width:40px;height:40px;border-radius:50%;
+  background: var(--vang-dat); color:var(--xanh-la-dam);
+  display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;
+}
+.logo small{display:block;font-size:13px;font-weight:400;opacity:.85;}
+
+nav.main-nav ul{list-style:none;display:flex;gap:22px;margin:0;padding:0;flex-wrap:wrap;}
+nav.main-nav a{color:#fff;font-weight:600;opacity:.92;}
+nav.main-nav a:hover{opacity:1;text-decoration:none;border-bottom:2px solid var(--vang-dat);}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;}
+.container-page{padding:36px 0;}
+
+.hero{
+  background: var(--xanh-la-dam);
+  color:#fff;
+  padding:50px 0;
+  position:relative;
+  overflow:hidden;
+}
+.hero h1{font-size:36px;margin:0 0 12px;}
+.hero p{font-size:19px;max-width:680px;opacity:.92;}
+.hero .stats{display:flex;gap:30px;margin-top:30px;flex-wrap:wrap;}
+.stat-box{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:16px 22px;min-width:150px;}
+.stat-box .so{font-size:30px;font-weight:800;color:var(--vang-dat);}
+.stat-box .nhan{font-size:14px;opacity:.85;}
+
+.section-title{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;}
+.section-title h2{font-size:24px;color:var(--xanh-la-dam);margin:0;border-left:5px solid var(--vang-dat);padding-left:12px;}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.card{
+  background:#fff;border:1px solid var(--vien);border-radius:14px;padding:20px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.08);}
+.tag{
+  display:inline-block;background: #eef5ee;color:var(--xanh-la-dam);
+  font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;margin-bottom:10px;
+}
+.tag.noibat{background:var(--vang-dat);color:#3a2a08;}
+.card h3{margin:6px 0 8px;font-size:18px;}
+.muted{color:#6b6b63;font-size:14px;}
+
+.btn{
+  display:inline-block;padding:10px 18px;border-radius:8px;border:none;
+  font-weight:700;cursor:pointer;font-size:15px;
+}
+.btn-primary{background:var(--xanh-la-dam);color:#fff;}
+.btn-primary:hover{background:var(--xanh-la);text-decoration:none;}
+.btn-outline{background:transparent;border:2px solid var(--xanh-la-dam);color:var(--xanh-la-dam);}
+.btn-danger{background:var(--do-nhe);color:#fff;}
+.btn-secondary{background:#e9e5d8;color:var(--chu-chinh);}
+.btn-sm{padding:6px 12px;font-size:13px;border-radius:6px;}
+
+footer.site-footer{
+  background: var(--xanh-la-dam);color:#fff;padding:26px 0;margin-top:50px;font-size:14px;text-align:center;
+}
+
+/* ===== Banner carousel kiểu báo điện tử ===== */
+.banner-carousel{
+  position:relative; width:100%; height:380px; overflow:hidden; border-radius:0;
+  background:#1a1a1a;
+}
+.banner-slide{
+  position:absolute; inset:0; opacity:0; transition:opacity .8s ease;
+  display:flex; align-items:flex-end;
+}
+.banner-slide.active{opacity:1;}
+.banner-slide img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:brightness(.7);
+}
+.banner-slide .noi-dung{
+  position:relative; z-index:2; padding:30px 40px; color:#fff; max-width:760px;
+}
+.banner-slide .tag{margin-bottom:10px;}
+.banner-slide h2{font-size:28px;margin:0 0 8px;line-height:1.3;}
+.banner-slide p{opacity:.9;font-size:15px;margin:0;}
+.banner-dots{position:absolute;bottom:16px;right:30px;z-index:3;display:flex;gap:8px;}
+.banner-dots span{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;}
+.banner-dots span.active{background:var(--vang-dat);}
+
+/* ===== Layout chính dạng báo điện tử (2 cột) ===== */
+.bao-layout{display:grid;grid-template-columns:2fr 1fr;gap:28px;align-items:start;}
+.bao-cot-chinh{min-width:0;}
+.bao-sidebar{display:flex;flex-direction:column;gap:22px;}
+
+.bai-noi-bat-lon{
+  display:block;border-radius:12px;overflow:hidden;background:#fff;border:1px solid var(--vien);margin-bottom:18px;
+}
+.bai-noi-bat-lon img{width:100%;height:240px;object-fit:cover;display:block;}
+.bai-noi-bat-lon .noi-dung{padding:16px 18px;}
+.bai-noi-bat-lon h3{font-size:21px;margin:6px 0 8px;color:var(--chu-chinh);}
+
+.danh-sach-tin{display:flex;flex-direction:column;}
+.dong-tin{
+  display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--vien);
+}
+.dong-tin img{width:110px;height:78px;object-fit:cover;border-radius:8px;flex-shrink:0;background:#eee;}
+.dong-tin .noi-dung h4{margin:0 0 6px;font-size:16px;}
+.dong-tin .noi-dung h4 a{color:var(--chu-chinh);}
+.dong-tin .noi-dung h4 a:hover{color:var(--xanh-la-dam);}
+
+.sidebar-box{background:#fff;border:1px solid var(--vien);border-radius:12px;padding:18px;}
+.sidebar-box h3{
+  font-size:16px;color:var(--xanh-la-dam);margin:0 0 14px;border-bottom:2px solid var(--vang-dat);padding-bottom:10px;
+}
+.sidebar-item{padding:10px 0;border-bottom:1px solid #f0ece0;}
+.sidebar-item:last-child{border-bottom:none;}
+.sidebar-item a{font-weight:600;color:var(--chu-chinh);font-size:14.5px;}
+.sidebar-item a:hover{color:var(--xanh-la-dam);}
+.sidebar-item .muted{font-size:12.5px;margin-top:3px;}
+
+.stat-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stat-mini{background:#eef5ee;border-radius:10px;padding:12px 8px;text-align:center;}
+.stat-mini .so{font-size:22px;font-weight:800;color:var(--xanh-la-dam);}
+.stat-mini .nhan{font-size:11.5px;color:#5a5a52;}
+
+@media (max-width: 900px){
+  .bao-layout{grid-template-columns:1fr;}
+  .banner-carousel{height:280px;}
+  .banner-slide .noi-dung{padding:20px;}
+  .banner-slide h2{font-size:20px;}
+}
+
+
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-grid .full{grid-column: 1 / -1;}
+.field label{display:block;font-weight:700;margin-bottom:6px;font-size:14px;}
+.field input[type=text], .field input[type=date], .field input[type=password],
+.field select, .field textarea{
+  width:100%;padding:10px 12px;border:1px solid var(--vien);border-radius:8px;font-size:15px;
+  background:#fff;
+}
+.field textarea{min-height:80px;}
+.check-field{display:flex;align-items:center;gap:8px;margin:8px 0;}
+.check-field input{width:18px;height:18px;}
+.form-box{background:#fff;border:1px solid var(--vien);border-radius:14px;padding:26px;max-width:900px;}
+
+/* Table */
+table.qt-table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;}
+table.qt-table th, table.qt-table td{padding:10px 12px;border-bottom:1px solid var(--vien);text-align:left;font-size:14.5px;}
+table.qt-table th{background:#eef5ee;color:var(--xanh-la-dam);}
+table.qt-table tr:hover{background:#fbf9f3;}
+.badge{padding:3px 8px;border-radius:6px;font-size:12px;font-weight:700;}
+.badge-vang{background:#fdf0d8;color:#8a5a08;}
+.badge-do{background:#fbe2dc;color:#8a2a16;}
+.badge-xanh{background:#e3f2e7;color:var(--xanh-la-dam);}
+
+.toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;}
+.search-box{display:flex;gap:8px;flex-wrap:wrap;}
+.search-box input,.search-box select{padding:9px 12px;border:1px solid var(--vien);border-radius:8px;}
+
+.flash{padding:12px 16px;border-radius:8px;margin-bottom:14px;font-weight:600;}
+.flash-success{background:#e3f2e7;color:var(--xanh-la-dam);}
+.flash-danger{background:#fbe2dc;color:#8a2a16;}
+.flash-info{background:#e7eef7;color:#2b4d7a;}
+.flash-warning{background:#fdf0d8;color:#8a5a08;}
+
+.admin-shell{display:flex;gap:24px;align-items:flex-start;}
+.admin-sidebar{
+  width:230px;background:#fff;border:1px solid var(--vien);border-radius:14px;padding:18px;flex-shrink:0;
+}
+.admin-sidebar a{
+  display:block;padding:10px 12px;border-radius:8px;color:var(--chu-chinh);font-weight:600;margin-bottom:4px;
+}
+.admin-sidebar a:hover, .admin-sidebar a.active{background:#eef5ee;color:var(--xanh-la-dam);text-decoration:none;}
+.admin-content{flex:1;min-width:0;}
+
+.pagination{display:flex;gap:6px;margin-top:20px;}
+.pagination a, .pagination span{padding:6px 12px;border-radius:6px;border:1px solid var(--vien);}
+.pagination .active{background:var(--xanh-la-dam);color:#fff;}
+
+@media (max-width: 760px){
+  .admin-shell{flex-direction:column;}
+  .admin-sidebar{width:100%;}
+  .form-grid{grid-template-columns:1fr;}
+}
+
+.field input[type=file]{
+  width:100%;padding:8px;border:1px solid var(--vien);border-radius:8px;background:#fff;font-size:14px;
+}
+
+/* Banner nhắc nhở sinh nhật */
+.nhac-sinh-nhat{
+  background:linear-gradient(135deg,#fff7e6,#fdf0d8);border:1px solid #f0d9a0;border-radius:12px;
+  padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.nhac-sinh-nhat .icon{font-size:28px;}
+.nhac-sinh-nhat .danh-sach{display:flex;gap:10px;flex-wrap:wrap;flex:1;}
+.nhac-sinh-nhat .nguoi{
+  background:#fff;border:1px solid #f0d9a0;border-radius:20px;padding:5px 14px;font-size:13.5px;font-weight:600;color:#7a5310;
+}

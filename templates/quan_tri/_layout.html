@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container-page wrap">
+  <div class="admin-shell">
+    <aside class="admin-sidebar">
+      <a href="{{ url_for('bang_dieu_khien') }}" class="{{ 'active' if request.endpoint=='bang_dieu_khien' }}">📊 Tổng quan</a>
+      <a href="{{ url_for('qt_danh_sach_hoi_vien') }}" class="{{ 'active' if 'hoi_vien' in request.endpoint }}">👴 Hội viên</a>
+      <a href="{{ url_for('qt_danh_sach_to') }}" class="{{ 'active' if request.endpoint and 'qt_' in request.endpoint and '_to' in request.endpoint }}">🏘️ Tổ dân phố</a>
+      <a href="{{ url_for('qt_danh_sach_tin_tuc') }}" class="{{ 'active' if 'tin_tuc' in request.endpoint }}">📰 Tin tức</a>
+      <a href="{{ url_for('qt_danh_sach_hoat_dong') }}" class="{{ 'active' if 'hoat_dong' in request.endpoint and 'qt_' in request.endpoint }}">📅 Hoạt động</a>
+      <a href="{{ url_for('qt_dien_dan_danh_sach') }}" class="{{ 'active' if 'dien_dan' in request.endpoint }}">💬 Diễn đàn</a>
+      <hr style="border-color:var(--vien);">
+      <a href="{{ url_for('qt_cai_dat') }}" class="{{ 'active' if request.endpoint=='qt_cai_dat' }}">⚙️ Cài đặt chung</a>
+      <hr style="border-color:var(--vien);">
+      <a href="{{ url_for('trang_chu') }}">🌐 Xem trang web</a>
+    </aside>
+    <div class="admin-content">
+      {% if sinh_nhat_sap_toi %}
+      <div class="nhac-sinh-nhat">
+        <span class="icon">🎂</span>
+        <div style="min-width:160px;">
+          <b>Sắp đến sinh nhật (trong 7 ngày):</b>
+        </div>
+        <div class="danh-sach">
+          {% for hv, so_ngay in sinh_nhat_sap_toi %}
+          <a href="{{ url_for('qt_chi_tiet_hoi_vien', id=hv.id) }}" class="nguoi">
+            {{ hv.ho_ten }} — {{ 'Hôm nay 🎉' if so_ngay==0 else (so_ngay ~ ' ngày nữa') }}
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      {% block admin_content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}{{ tieu_de }}{% endblock %}
+{% block admin_content %}
+<h2 style="color:var(--xanh-la-dam);">{{ tieu_de }}</h2>
+<div class="form-box">
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="form-grid">
+    <div class="field"><label>Mã hội viên</label>{{ form.ma_hoi_vien() }}</div>
+    <div class="field"><label>Họ và tên *</label>{{ form.ho_ten() }}</div>
+
+    <div class="field"><label>Giới tính</label>{{ form.gioi_tinh() }}</div>
+    <div class="field"><label>Ngày sinh *</label>{{ form.ngay_sinh(type="date") }}</div>
+
+    <div class="field"><label>Số CCCD</label>{{ form.so_cccd() }}</div>
+    <div class="field"><label>Số điện thoại</label>{{ form.so_dien_thoai() }}</div>
+
+    <div class="field full"><label>Địa chỉ</label>{{ form.dia_chi() }}</div>
+
+    <div class="field"><label>Tổ dân phố</label>{{ form.to_dan_pho_id() }}</div>
+    <div class="field"><label>Ngày vào hội</label>{{ form.ngay_vao_hoi(type="date") }}</div>
+
+    <div class="field full"><hr style="border-color:var(--vien);"><h3 style="color:var(--xanh-la-dam);">Lương hưu & chính sách</h3></div>
+
+    <div class="field">
+      <div class="check-field">{{ form.huong_luong_huu() }} {{ form.huong_luong_huu.label }}</div>
+      <label>Mức lương hưu (đồng/tháng)</label>{{ form.muc_luong_huu() }}
+    </div>
+    <div class="field">
+      <div class="check-field">{{ form.co_che_do_chinh_sach() }} {{ form.co_che_do_chinh_sach.label }}</div>
+      <label>Loại chính sách</label>{{ form.loai_chinh_sach() }}
+    </div>
+
+    <div class="field">
+      <div class="check-field">{{ form.huong_tro_cap_xa_hoi() }} {{ form.huong_tro_cap_xa_hoi.label }}</div>
+      <label>Mức trợ cấp (đồng/tháng)</label>{{ form.muc_tro_cap() }}
+    </div>
+    <div class="field">
+      <label>Loại trợ cấp</label>{{ form.loai_tro_cap() }}
+    </div>
+
+    <div class="field full"><hr style="border-color:var(--vien);"><h3 style="color:var(--xanh-la-dam);">Tình trạng sức khỏe & hoàn cảnh</h3></div>
+
+    <div class="field"><div class="check-field">{{ form.neo_don() }} {{ form.neo_don.label }}</div></div>
+    <div class="field"><div class="check-field">{{ form.co_bhyt() }} {{ form.co_bhyt.label }}</div></div>
+
+    <div class="field"><label>Tình trạng sức khỏe</label>{{ form.tinh_trang_suc_khoe() }}</div>
+    <div class="field"><div class="check-field">{{ form.con_song() }} {{ form.con_song.label }}</div></div>
+
+    <div class="field full"><label>Bệnh mãn tính (nếu có)</label>{{ form.benh_man_tinh() }}</div>
+    <div class="field full"><label>Ghi chú khác</label>{{ form.ghi_chu() }}</div>
+  </div>
+
+  <div style="margin-top:20px;">
+    {{ form.submit(class="btn btn-primary") }}
+    <a href="{{ url_for('qt_danh_sach_hoi_vien') }}" class="btn btn-secondary">Hủy</a>
+  </div>
+</form>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Diễn đàn - Hội Người cao tuổi Phường{% endblock %}
+{% block content %}
+<div class="container-page wrap">
+  <div class="toolbar">
+    <h2 style="color:var(--xanh-la-dam);margin:0;">💬 Diễn đàn chia sẻ</h2>
+    <a href="{{ url_for('dien_dan_dang_bai') }}" class="btn btn-primary">+ Đăng bài chia sẻ</a>
+  </div>
+  <p class="muted">Nơi các cụ, các bác trao đổi thông tin, chia sẻ hình ảnh hoạt động trong từng khu phố. Ai cũng có thể đăng bài, không cần đăng nhập.</p>
+
+  <form method="GET" class="search-box" style="margin-bottom:18px;">
+    <select name="to">
+      <option value="0">-- Tất cả khu phố --</option>
+      {% for t in cac_to %}
+      <option value="{{ t.id }}" {% if to_id==t.id %}selected{% endif %}>{{ t.ten_to }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-secondary" type="submit">Lọc</button>
+  </form>
+
+  <div class="card-grid">
+    {% for bv in phan_trang.items %}
+    <div class="card">
+      {% if bv.to_dan_pho %}<span class="tag">{{ bv.to_dan_pho.ten_to }}</span>{% endif %}
+      <h3>{{ bv.tieu_de }}</h3>
+      <p class="muted">✍️ {{ bv.ten_nguoi_dang }} — 📅 {{ bv.ngay_dang.strftime('%d/%m/%Y %H:%M') }}</p>
+      {% if bv.hinh_anh %}<img src="{{ bv.hinh_anh }}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover;margin-bottom:8px;" alt="">{% endif %}
+      <p>{{ (bv.noi_dung or '')[:120] }}{% if bv.noi_dung and bv.noi_dung|length > 120 %}...{% endif %}</p>
+      <a href="{{ url_for('dien_dan_chi_tiet', id=bv.id) }}" class="btn btn-outline btn-sm">Xem & trao đổi ({{ bv.so_binh_luan }})</a>
+    </div>
+    {% else %}
+    <p class="muted">Chưa có bài viết nào. Hãy là người đầu tiên chia sẻ!</p>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    {% if phan_trang.has_prev %}<a href="?trang={{ phan_trang.prev_num }}&to={{ to_id }}">« Trước</a>{% endif %}
+    <span class="active">{{ phan_trang.page }} / {{ phan_trang.pages or 1 }}</span>
+    {% if phan_trang.has_next %}<a href="?trang={{ phan_trang.next_num }}&to={{ to_id }}">Sau »</a>{% endif %}
+  </div>
+</div>
+{% endblock %}

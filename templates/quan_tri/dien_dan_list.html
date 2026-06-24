@@ -1,0 +1,37 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}Kiểm duyệt diễn đàn{% endblock %}
+{% block admin_content %}
+<h2 style="color:var(--xanh-la-dam);">💬 Kiểm duyệt diễn đàn</h2>
+<p class="muted">Ẩn hoặc xóa các bài viết không phù hợp. Bài bị ẩn sẽ không hiển thị công khai nữa.</p>
+<table class="qt-table">
+  <thead><tr><th>Tiêu đề</th><th>Người đăng</th><th>Khu phố</th><th>Ngày đăng</th><th>Bình luận</th><th>Trạng thái</th><th></th></tr></thead>
+  <tbody>
+    {% for bv in phan_trang.items %}
+    <tr>
+      <td><a href="{{ url_for('dien_dan_chi_tiet', id=bv.id) }}">{{ bv.tieu_de }}</a></td>
+      <td>{{ bv.ten_nguoi_dang }}</td>
+      <td>{{ bv.to_dan_pho.ten_to if bv.to_dan_pho else '-' }}</td>
+      <td>{{ bv.ngay_dang.strftime('%d/%m/%Y') }}</td>
+      <td>{{ bv.so_binh_luan }}</td>
+      <td>{% if bv.duoc_duyet %}<span class="badge badge-xanh">Hiển thị</span>{% else %}<span class="badge badge-do">Đã ẩn</span>{% endif %}</td>
+      <td style="white-space:nowrap;">
+        <form method="POST" action="{{ url_for('qt_dien_dan_an_hien', id=bv.id) }}" style="display:inline;">
+          <button class="btn btn-secondary btn-sm" type="submit">{{ 'Ẩn' if bv.duoc_duyet else 'Hiện' }}</button>
+        </form>
+        <form method="POST" action="{{ url_for('qt_dien_dan_xoa', id=bv.id) }}" style="display:inline;"
+              onsubmit="return confirm('Xóa bài viết {{ bv.tieu_de }}? Sẽ xóa luôn các bình luận.');">
+          <button class="btn btn-danger btn-sm" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="muted" style="text-align:center;padding:30px;">Chưa có bài viết nào trên diễn đàn.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="pagination">
+  {% if phan_trang.has_prev %}<a href="?trang={{ phan_trang.prev_num }}">« Trước</a>{% endif %}
+  <span class="active">{{ phan_trang.page }} / {{ phan_trang.pages or 1 }}</span>
+  {% if phan_trang.has_next %}<a href="?trang={{ phan_trang.next_num }}">Sau »</a>{% endif %}
+</div>
+{% endblock %}

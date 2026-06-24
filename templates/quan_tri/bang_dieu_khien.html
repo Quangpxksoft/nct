@@ -1,0 +1,22 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}Bảng điều khiển{% endblock %}
+{% block admin_content %}
+<div class="section-title"><h2>Tổng quan</h2></div>
+<div class="card-grid">
+  <div class="card"><div class="muted">Hội viên đang sinh hoạt</div><div style="font-size:30px;font-weight:800;color:var(--xanh-la-dam);">{{ tong_hoi_vien }}</div></div>
+  <div class="card"><div class="muted">Hội viên hưởng lương hưu</div><div style="font-size:30px;font-weight:800;color:var(--xanh-la-dam);">{{ tong_huong_luong }}</div></div>
+  <div class="card"><div class="muted">Hội viên có chế độ chính sách</div><div style="font-size:30px;font-weight:800;color:var(--xanh-la-dam);">{{ tong_chinh_sach }}</div></div>
+  <div class="card"><div class="muted">Hội viên hưởng trợ cấp xã hội</div><div style="font-size:30px;font-weight:800;color:var(--xanh-la-dam);">{{ tong_tro_cap }}</div></div>
+  <div class="card"><div class="muted">Hội viên neo đơn</div><div style="font-size:30px;font-weight:800;color:var(--do-nhe);">{{ tong_neo_don }}</div></div>
+  <div class="card"><div class="muted">🎂 Sinh nhật tháng này</div><div style="font-size:30px;font-weight:800;color:var(--vang-dat);">{{ tong_sinh_nhat_thang_nay }}</div>
+    <a href="{{ url_for('qt_danh_sach_hoi_vien', thang=thang_hien_tai) }}" class="btn btn-outline btn-sm" style="margin-top:6px;">Xem danh sách</a>
+  </div>
+  <div class="card"><div class="muted">Tổng hoạt động đã đăng</div><div style="font-size:30px;font-weight:800;color:var(--xanh-la-dam);">{{ tong_hoat_dong }}</div></div>
+</div>
+
+<div style="margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;">
+  <a href="{{ url_for('qt_them_hoi_vien') }}" class="btn btn-primary">+ Thêm hội viên</a>
+  <a href="{{ url_for('qt_them_hoat_dong') }}" class="btn btn-secondary">+ Thêm hoạt động</a>
+  <a href="{{ url_for('qt_them_to') }}" class="btn btn-secondary">+ Thêm tổ dân phố</a>
+</div>
+{% endblock %}

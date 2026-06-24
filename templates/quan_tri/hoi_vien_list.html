@@ -1,0 +1,68 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}Danh sách hội viên{% endblock %}
+{% block admin_content %}
+<div class="toolbar">
+  <h2 style="color:var(--xanh-la-dam);margin:0;">Danh sách hội viên</h2>
+  <a href="{{ url_for('qt_them_hoi_vien') }}" class="btn btn-primary">+ Thêm hội viên</a>
+</div>
+
+<form method="GET" class="search-box" style="margin-bottom:16px;">
+  <input type="text" name="q" value="{{ tu_khoa }}" placeholder="Tìm theo tên, mã hội viên, CCCD...">
+  <select name="to">
+    <option value="0">-- Tất cả tổ dân phố --</option>
+    {% for t in cac_to %}
+    <option value="{{ t.id }}" {% if to_id==t.id %}selected{% endif %}>{{ t.ten_to }}</option>
+    {% endfor %}
+  </select>
+  <select name="thang">
+    <option value="0">-- Tất cả tháng sinh --</option>
+    {% for i in range(1,13) %}
+    <option value="{{ i }}" {% if thang_sinh==i %}selected{% endif %}>🎂 Sinh nhật tháng {{ i }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-secondary" type="submit">Tìm</button>
+  {% if thang_sinh %}<a href="{{ url_for('qt_danh_sach_hoi_vien') }}" class="btn btn-outline">Bỏ lọc</a>{% endif %}
+</form>
+
+{% if thang_sinh %}
+<p class="muted" style="margin-top:-6px;">🎂 Đang lọc {{ phan_trang.total }} hội viên có sinh nhật trong tháng {{ thang_sinh }} — sắp xếp theo ngày trong tháng.</p>
+{% endif %}
+
+<table class="qt-table">
+  <thead>
+    <tr>
+      <th>Mã</th><th>Họ tên</th><th>Năm sinh</th><th>Tổ dân phố</th>
+      <th>Lương hưu</th><th>Chính sách</th><th>Trợ cấp</th><th>Neo đơn</th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for hv in phan_trang.items %}
+    <tr>
+      <td>{{ hv.ma_hoi_vien or '-' }}</td>
+      <td><a href="{{ url_for('qt_chi_tiet_hoi_vien', id=hv.id) }}">{{ hv.ho_ten }}</a></td>
+      <td>{{ hv.ngay_sinh.strftime('%d/%m/%Y') }} ({{ hv.tuoi }} tuổi)</td>
+      <td>{{ hv.to_dan_pho.ten_to if hv.to_dan_pho else '-' }}</td>
+      <td>{% if hv.huong_luong_huu %}<span class="badge badge-xanh">Có</span>{% else %}-{% endif %}</td>
+      <td>{% if hv.co_che_do_chinh_sach %}<span class="badge badge-vang">Có</span>{% else %}-{% endif %}</td>
+      <td>{% if hv.huong_tro_cap_xa_hoi %}<span class="badge badge-vang">Có</span>{% else %}-{% endif %}</td>
+      <td>{% if hv.neo_don %}<span class="badge badge-do">Neo đơn</span>{% else %}-{% endif %}</td>
+      <td style="white-space:nowrap;">
+        <a href="{{ url_for('qt_sua_hoi_vien', id=hv.id) }}" class="btn btn-secondary btn-sm">Sửa</a>
+        <form method="POST" action="{{ url_for('qt_xoa_hoi_vien', id=hv.id) }}" style="display:inline;"
+              onsubmit="return confirm('Xóa hội viên {{ hv.ho_ten }}?');">
+          <button class="btn btn-danger btn-sm" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="9" class="muted" style="text-align:center;padding:30px;">Chưa có hội viên nào.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+  {% if phan_trang.has_prev %}<a href="?trang={{ phan_trang.prev_num }}&q={{ tu_khoa }}&to={{ to_id }}&thang={{ thang_sinh }}">« Trước</a>{% endif %}
+  <span class="active">{{ phan_trang.page }} / {{ phan_trang.pages or 1 }}</span>
+  {% if phan_trang.has_next %}<a href="?trang={{ phan_trang.next_num }}&q={{ tu_khoa }}&to={{ to_id }}&thang={{ thang_sinh }}">Sau »</a>{% endif %}
+</div>
+{% endblock %}

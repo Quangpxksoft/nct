@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ tt.tieu_de }}{% endblock %}
+{% block content %}
+<div class="container-page wrap">
+  <a href="{{ url_for('danh_sach_tin_tuc') }}">← Quay lại danh sách</a>
+  <div class="form-box" style="margin-top:16px;max-width:760px;">
+    {% if tt.noi_bat %}<span class="tag noibat">Thông báo nổi bật</span>{% else %}<span class="tag">Tin tức</span>{% endif %}
+    <h1 style="margin:10px 0;">{{ tt.tieu_de }}</h1>
+    <p class="muted">📅 Ngày đăng: {{ tt.ngay_dang.strftime('%d/%m/%Y') }}</p>
+    {% if tt.hinh_anh %}<img src="{{ tt.hinh_anh }}" style="width:100%;border-radius:10px;margin:14px 0;" alt="{{ tt.tieu_de }}">{% endif %}
+    <hr style="border-color:var(--vien);margin:18px 0;">
+    <p style="white-space:pre-line;">{{ tt.noi_dung or tt.tom_tat or 'Chưa có nội dung chi tiết.' }}</p>
+  </div>
+</div>
+{% endblock %}

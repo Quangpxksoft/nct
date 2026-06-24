@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}{{ hd.tieu_de }}{% endblock %}
+{% block content %}
+<div class="container-page wrap">
+  <a href="{{ url_for('danh_sach_hoat_dong') }}">← Quay lại danh sách</a>
+  <div class="form-box" style="margin-top:16px;max-width:760px;">
+    <span class="tag {% if hd.noi_bat %}noibat{% endif %}">{{ hd.loai_hoat_dong or 'Hoạt động' }}</span>
+    <h1 style="margin:10px 0;">{{ hd.tieu_de }}</h1>
+    <p class="muted">📅 Ngày tổ chức: {{ hd.ngay_to_chuc.strftime('%d/%m/%Y') }} {% if hd.gio_to_chuc %}— ⏰ {{ hd.gio_to_chuc }}{% endif %}</p>
+    <p class="muted">📍 Địa điểm: {{ hd.dia_diem or 'Đang cập nhật' }}</p>
+    {% if hd.hinh_anh %}<img src="{{ hd.hinh_anh }}" style="width:100%;border-radius:10px;margin:14px 0;" alt="{{ hd.tieu_de }}">{% endif %}
+    <hr style="border-color:var(--vien);margin:18px 0;">
+    <p style="white-space:pre-line;">{{ hd.noi_dung or 'Chưa có nội dung chi tiết.' }}</p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}{{ bv.tieu_de }}{% endblock %}
+{% block content %}
+<div class="container-page wrap">
+  <a href="{{ url_for('dien_dan_danh_sach') }}">← Quay lại diễn đàn</a>
+  <div class="form-box" style="margin-top:14px;max-width:760px;">
+    {% if bv.to_dan_pho %}<span class="tag">{{ bv.to_dan_pho.ten_to }}</span>{% endif %}
+    <h1 style="margin:10px 0;">{{ bv.tieu_de }}</h1>
+    <p class="muted">✍️ {{ bv.ten_nguoi_dang }} — 📅 {{ bv.ngay_dang.strftime('%d/%m/%Y %H:%M') }}</p>
+    {% if bv.hinh_anh %}<img src="{{ bv.hinh_anh }}" style="width:100%;border-radius:10px;margin:14px 0;" alt="">{% endif %}
+    <p style="white-space:pre-line;">{{ bv.noi_dung or '' }}</p>
+  </div>
+
+  <div class="form-box" style="margin-top:20px;max-width:760px;">
+    <h3 style="color:var(--xanh-la-dam);">💬 Trao đổi ({{ bv.so_binh_luan }})</h3>
+    {% for bl in bv.binh_luan %}
+    <div style="border-bottom:1px solid var(--vien);padding:12px 0;">
+      <b>{{ bl.ten_nguoi_binh_luan }}</b> <span class="muted">— {{ bl.ngay_dang.strftime('%d/%m/%Y %H:%M') }}</span>
+      <p style="margin:6px 0 0;">{{ bl.noi_dung }}</p>
+    </div>
+    {% else %}
+    <p class="muted">Chưa có bình luận nào. Hãy là người trao đổi đầu tiên!</p>
+    {% endfor %}
+
+    <h4 style="margin-top:20px;color:var(--xanh-la-dam);">Gửi bình luận</h4>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+      <div class="field" style="margin-bottom:12px;">{{ form.ten_nguoi_binh_luan.label }}{{ form.ten_nguoi_binh_luan() }}</div>
+      <div class="field" style="margin-bottom:12px;">{{ form.noi_dung.label }}{{ form.noi_dung() }}</div>
+      {{ form.submit(class="btn btn-primary") }}
+    </form>
+  </div>
+</div>
+{% endblock %}

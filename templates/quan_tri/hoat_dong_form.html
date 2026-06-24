@@ -1,0 +1,34 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}{{ tieu_de }}{% endblock %}
+{% block admin_content %}
+<h2 style="color:var(--xanh-la-dam);">{{ tieu_de }}</h2>
+<div class="form-box">
+<form method="POST" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="form-grid">
+    <div class="field full"><label>Tiêu đề hoạt động *</label>{{ form.tieu_de() }}</div>
+    <div class="field"><label>Loại hoạt động</label>{{ form.loai_hoat_dong() }}</div>
+    <div class="field"><label>Ngày tổ chức *</label>{{ form.ngay_to_chuc(type="date") }}</div>
+    <div class="field"><label>Giờ tổ chức</label>{{ form.gio_to_chuc(placeholder="VD: 07:30") }}</div>
+    <div class="field"><label>Địa điểm</label>{{ form.dia_diem() }}</div>
+    <div class="field full"><label>Nội dung chi tiết</label>{{ form.noi_dung() }}</div>
+    <div class="field full">
+      <label>🖼️ Hình ảnh minh họa</label>
+      <div style="background:#fbf9f3;border:1px dashed var(--vien);border-radius:8px;padding:14px;">
+        <label style="font-weight:400;margin-bottom:6px;">Chọn ảnh từ máy tính / điện thoại</label>
+        {{ form.hinh_anh_tep() }}
+        {% if form.hinh_anh_tep.errors %}<p style="color:var(--do-nhe);font-size:13px;">{{ form.hinh_anh_tep.errors[0] }}</p>{% endif %}
+        <p class="muted" style="margin:10px 0 4px;">— hoặc —</p>
+        {{ form.hinh_anh(placeholder="Dán đường dẫn ảnh (URL) từ Zalo, Facebook, Google Drive...") }}
+        {% if hd and hd.hinh_anh %}<p class="muted" style="margin-top:8px;">Ảnh hiện tại: <img src="{{ hd.hinh_anh }}" style="height:60px;border-radius:6px;vertical-align:middle;margin-left:6px;"></p>{% endif %}
+      </div>
+    </div>
+    <div class="field full"><div class="check-field">{{ form.noi_bat() }} {{ form.noi_bat.label }}</div></div>
+  </div>
+  <div style="margin-top:18px;">
+    {{ form.submit(class="btn btn-primary") }}
+    <a href="{{ url_for('qt_danh_sach_hoat_dong') }}" class="btn btn-secondary">Hủy</a>
+  </div>
+</form>
+</div>
+{% endblock %}

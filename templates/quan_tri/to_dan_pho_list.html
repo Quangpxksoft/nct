@@ -1,0 +1,30 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}Tổ dân phố{% endblock %}
+{% block admin_content %}
+<div class="toolbar">
+  <h2 style="color:var(--xanh-la-dam);margin:0;">Tổ dân phố</h2>
+  <a href="{{ url_for('qt_them_to') }}" class="btn btn-primary">+ Thêm tổ dân phố</a>
+</div>
+<table class="qt-table">
+  <thead><tr><th>Tên tổ</th><th>Tổ trưởng</th><th>SĐT</th><th>Số hội viên</th><th></th></tr></thead>
+  <tbody>
+    {% for t in cac_to %}
+    <tr>
+      <td>{{ t.ten_to }}</td>
+      <td>{{ t.to_truong or '-' }}</td>
+      <td>{{ t.sdt_to_truong or '-' }}</td>
+      <td>{{ t.so_hoi_vien }}</td>
+      <td style="white-space:nowrap;">
+        <a href="{{ url_for('qt_sua_to', id=t.id) }}" class="btn btn-secondary btn-sm">Sửa</a>
+        <form method="POST" action="{{ url_for('qt_xoa_to', id=t.id) }}" style="display:inline;"
+              onsubmit="return confirm('Xóa tổ {{ t.ten_to }}? Hội viên thuộc tổ sẽ không còn gắn với tổ này.');">
+          <button class="btn btn-danger btn-sm" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" class="muted" style="text-align:center;padding:30px;">Chưa có tổ dân phố nào.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

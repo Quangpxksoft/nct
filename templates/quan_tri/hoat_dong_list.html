@@ -1,0 +1,37 @@
+{% extends "quan_tri/_layout.html" %}
+{% block title %}Hoạt động{% endblock %}
+{% block admin_content %}
+<div class="toolbar">
+  <h2 style="color:var(--xanh-la-dam);margin:0;">Hoạt động</h2>
+  <a href="{{ url_for('qt_them_hoat_dong') }}" class="btn btn-primary">+ Thêm hoạt động</a>
+</div>
+<table class="qt-table">
+  <thead><tr><th>Tiêu đề</th><th>Loại</th><th>Ngày tổ chức</th><th>Địa điểm</th><th>Nổi bật</th><th></th></tr></thead>
+  <tbody>
+    {% for hd in phan_trang.items %}
+    <tr>
+      <td>{{ hd.tieu_de }}</td>
+      <td>{{ hd.loai_hoat_dong or '-' }}</td>
+      <td>{{ hd.ngay_to_chuc.strftime('%d/%m/%Y') }}</td>
+      <td>{{ hd.dia_diem or '-' }}</td>
+      <td>{% if hd.noi_bat %}<span class="badge badge-vang">Nổi bật</span>{% else %}-{% endif %}</td>
+      <td style="white-space:nowrap;">
+        <a href="{{ url_for('chi_tiet_hoat_dong', id=hd.id) }}" class="btn btn-secondary btn-sm">Xem</a>
+        <a href="{{ url_for('qt_sua_hoat_dong', id=hd.id) }}" class="btn btn-secondary btn-sm">Sửa</a>
+        <form method="POST" action="{{ url_for('qt_xoa_hoat_dong', id=hd.id) }}" style="display:inline;"
+              onsubmit="return confirm('Xóa hoạt động {{ hd.tieu_de }}?');">
+          <button class="btn btn-danger btn-sm" type="submit">Xóa</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="6" class="muted" style="text-align:center;padding:30px;">Chưa có hoạt động nào.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="pagination">
+  {% if phan_trang.has_prev %}<a href="?trang={{ phan_trang.prev_num }}">« Trước</a>{% endif %}
+  <span class="active">{{ phan_trang.page }} / {{ phan_trang.pages or 1 }}</span>
+  {% if phan_trang.has_next %}<a href="?trang={{ phan_trang.next_num }}">Sau »</a>{% endif %}
+</div>
+{% endblock %}
