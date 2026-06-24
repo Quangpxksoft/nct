@@ -56,7 +56,24 @@ def create_app():
         return NguoiDung.query.get(int(user_id))
 
     register_routes(app)
+    _tu_dong_khoi_tao_du_lieu(app)
     return app
+
+
+def _tu_dong_khoi_tao_du_lieu(app):
+    """Tạo bảng CSDL + tài khoản admin mặc định nếu chưa có — chạy mỗi lần app khởi động,
+    an toàn vì chỉ tạo khi chưa tồn tại (không cần vào Shell thủ công nữa)."""
+    with app.app_context():
+        try:
+            db.create_all()
+            if not NguoiDung.query.filter_by(ten_dang_nhap='admin').first():
+                admin = NguoiDung(ten_dang_nhap='admin', ho_ten='Quản trị viên', vai_tro='admin')
+                admin.set_password('admin123')
+                db.session.add(admin)
+                db.session.commit()
+                print("✔ Đã tự động tạo tài khoản admin/admin123 — hãy đổi mật khẩu sau khi đăng nhập!")
+        except Exception as loi:
+            print(f"⚠ Không thể tự khởi tạo CSDL lúc start (có thể DB chưa sẵn sàng): {loi}")
 
 
 def hoi_vien_sinh_nhat_sap_toi(so_ngay=7):
