@@ -114,6 +114,16 @@ def lay_cau_hinh(app):
     return ch
 
 
+def sinh_ma_hoi_vien_moi():
+    """Tự sinh mã hội viên kế tiếp dạng HV0001, HV0002... dựa trên mã lớn nhất hiện có."""
+    so_lon_nhat = 0
+    for hv in HoiVien.query.with_entities(HoiVien.ma_hoi_vien).all():
+        ma = hv[0] or ''
+        if ma.upper().startswith('HV') and ma[2:].isdigit():
+            so_lon_nhat = max(so_lon_nhat, int(ma[2:]))
+    return f"HV{so_lon_nhat + 1:04d}"
+
+
 def register_routes(app):
 
     @app.context_processor
@@ -356,9 +366,10 @@ def register_routes(app):
         if form.validate_on_submit():
             hv = HoiVien()
             _gan_du_lieu_hoi_vien(hv, form)
+            hv.ma_hoi_vien = sinh_ma_hoi_vien_moi()
             db.session.add(hv)
             db.session.commit()
-            flash(f'Đã thêm hội viên "{hv.ho_ten}".', 'success')
+            flash(f'Đã thêm hội viên "{hv.ho_ten}" — mã hội viên: {hv.ma_hoi_vien}.', 'success')
             return redirect(url_for('qt_danh_sach_hoi_vien'))
         return render_template('quan_tri/hoi_vien_form.html', form=form, tieu_de='Thêm hội viên')
 

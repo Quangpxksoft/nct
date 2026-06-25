@@ -12,10 +12,31 @@
       </div>
       <div class="field" style="margin-bottom:18px;">
         {{ form.mat_khau.label }}
-        {{ form.mat_khau(placeholder="••••••••") }}
+        <div style="position:relative;">
+          {{ form.mat_khau(placeholder="••••••••", id="o-mat-khau", style="padding-right:46px;") }}
+          <button type="button" id="nut-hien-mat-khau"
+                  style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:20px;padding:4px;line-height:1;"
+                  aria-label="Hiện/ẩn mật khẩu">👁️</button>
+        </div>
       </div>
       {{ form.submit(class="btn btn-primary", style="width:100%;") }}
     </form>
   </div>
 </div>
+<script>
+(function(){
+  const o = document.getElementById('o-mat-khau');
+  const nut = document.getElementById('nut-hien-mat-khau');
+  if (!o || !nut) return;
+  nut.addEventListener('click', function(){
+    if (o.type === 'password') {
+      o.type = 'text';
+      nut.textContent = '🙈';
+    } else {
+      o.type = 'password';
+      nut.textContent = '👁️';
+    }
+  });
+})();
+</script>
 {% endblock %}

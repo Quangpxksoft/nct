@@ -31,7 +31,6 @@ class ToDanPhoForm(FlaskForm):
 
 
 class HoiVienForm(FlaskForm):
-    ma_hoi_vien = StringField('Mã hội viên', validators=[Optional(), Length(max=20)])
     ho_ten = StringField('Họ và tên', validators=[DataRequired(), Length(max=150)])
     gioi_tinh = SelectField('Giới tính', choices=[('Nam', 'Nam'), ('Nữ', 'Nữ')], validators=[Optional()])
     ngay_sinh = DateField('Ngày sinh', validators=[DataRequired()], format='%Y-%m-%d')

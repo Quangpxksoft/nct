@@ -6,7 +6,9 @@
 <form method="POST">
   {{ form.hidden_tag() }}
   <div class="form-grid">
-    <div class="field"><label>Mã hội viên</label>{{ form.ma_hoi_vien() }}</div>
+    {% if hv %}
+    <div class="field"><label>Mã hội viên (tự động)</label><input type="text" value="{{ hv.ma_hoi_vien }}" disabled style="background:#f0ece0;"></div>
+    {% endif %}
     <div class="field"><label>Họ và tên *</label>{{ form.ho_ten() }}</div>
 
     <div class="field"><label>Giới tính</label>{{ form.gioi_tinh() }}</div>
